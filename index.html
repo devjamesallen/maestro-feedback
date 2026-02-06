@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAESTRO Feedback</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+      min-height: 100vh;
+      color: #fff;
+      line-height: 1.6;
+    }
+    
+    .wrapper {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+    
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .logo {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #8b5cf6;
+      margin-bottom: 1rem;
+    }
+    
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .tagline {
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+    
+    /* Form sections */
+    .section {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .section-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #8b5cf6;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Questions */
+    .question {
+      margin-bottom: 2rem;
+    }
+    
+    .question:last-child {
+      margin-bottom: 0;
+    }
+    
+    .q-text {
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: #e5e7eb;
+    }
+    
+    /* Rating buttons */
+    .rating {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .rating input { display: none; }
+    
+    .rating label {
+      flex: 1;
+      padding: 0.75rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #6b7280;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .rating label:hover {
+      background: rgba(139,92,246,0.1);
+      border-color: rgba(139,92,246,0.3);
+      color: #a78bfa;
+    }
+    
+    .rating input:checked + label {
+      background: #8b5cf6;
+      border-color: #8b5cf6;
+      color: #fff;
+    }
+    
+    .scale-hint {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: #4b5563;
+    }
+    
+    /* Before/After grid */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    
+    .comparison-col h4 {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 0.75rem;
+    }
+    
+    .comparison .rating {
+      flex-direction: row;
+    }
+    
+    .comparison .rating label {
+      padding: 0.6rem 0;
+      font-size: 0.85rem;
+    }
+    
+    /* Dropdown */
+    select {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: #e5e7eb;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+    }
+    
+    select:focus {
+      outline: none;
+      border-color: #8b5cf6;
+    }
+    
+    select option {
+      background: #1a1a2e;
+      color: #e5e7eb;
+    }
+    
+    /* Textarea */
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 1rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: #e5e7eb;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: #8b5cf6;
+    }
+    
+    textarea::placeholder {
+      color: #4b5563;
+    }
+    
+    /* Submit */
+    .submit-wrap {
+      text-align: center;
+      padding-top: 0.5rem;
+    }
+    
+    button {
+      background: #8b5cf6;
+      color: #fff;
+      border: none;
+      padding: 1rem 3rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    button:hover {
+      background: #7c3aed;
+      transform: translateY(-1px);
+    }
+    
+    .note {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #4b5563;
+    }
+    
+    /* Mobile */
+    @media (max-width: 500px) {
+      .wrapper { padding: 2rem 1rem; }
+      .section { padding: 1.5rem; }
+      .comparison { grid-template-columns: 1fr; gap: 1rem; }
+      .rating label { padding: 0.65rem 0; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <div class="logo">MAESTRO</div>
+      <h1>Roadmap Feedback</h1>
+      <p class="tagline">2 minutes · Your input shapes our priorities</p>
+    </header>
+    
+    <form action="https://formsubmit.co/james.allen.99@us.af.mil" method="POST">
+      <input type="hidden" name="_subject" value="MAESTRO Feedback Response">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" value="https://YOURUSERNAME.github.io/maestro-thanks.html">
+      
+      <!-- Clarity -->
+      <div class="section">
+        <div class="section-title">Presentation Clarity</div>
+        
+        <div class="question">
+          <p class="q-text">How clearly was the problem/need articulated?</p>
+          <div class="rating">
+            <input type="radio" name="need" id="n1" value="1" required><label for="n1">1</label>
+            <input type="radio" name="need" id="n2" value="2"><label for="n2">2</label>
+            <input type="radio" name="need" id="n3" value="3"><label for="n3">3</label>
+            <input type="radio" name="need" id="n4" value="4"><label for="n4">4</label>
+            <input type="radio" name="need" id="n5" value="5"><label for="n5">5</label>
+          </div>
+          <div class="scale-hint"><span>Unclear</span><span>Crystal clear</span></div>
+        </div>
+        
+        <div class="question">
+          <p class="q-text">How clearly were the planned solutions explained?</p>
+          <div class="rating">
+            <input type="radio" name="solutions" id="s1" value="1" required><label for="s1">1</label>
+            <input type="radio" name="solutions" id="s2" value="2"><label for="s2">2</label>
+            <input type="radio" name="solutions" id="s3" value="3"><label for="s3">3</label>
+            <input type="radio" name="solutions" id="s4" value="4"><label for="s4">4</label>
+            <input type="radio" name="solutions" id="s5" value="5"><label for="s5">5</label>
+          </div>
+          <div class="scale-hint"><span>Confusing</span><span>Well-defined</span></div>
+        </div>
+        
+        <div class="question">
+          <p class="q-text">How compelling was the overall vision?</p>
+          <div class="rating">
+            <input type="radio" name="vision" id="v1" value="1" required><label for="v1">1</label>
+            <input type="radio" name="vision" id="v2" value="2"><label for="v2">2</label>
+            <input type="radio" name="vision" id="v3" value="3"><label for="v3">3</label>
+            <input type="radio" name="vision" id="v4" value="4"><label for="v4">4</label>
+            <input type="radio" name="vision" id="v5" value="5"><label for="v5">5</label>
+          </div>
+          <div class="scale-hint"><span>Weak</span><span>Inspiring</span></div>
+        </div>
+      </div>
+      
+      <!-- Optimism -->
+      <div class="section">
+        <div class="section-title">Production Outlook</div>
+        
+        <div class="question">
+          <p class="q-text">Your optimism about future M&S production:</p>
+          <div class="comparison">
+            <div class="comparison-col">
+              <h4>Before Briefing</h4>
+              <div class="rating">
+                <input type="radio" name="before" id="b1" value="1" required><label for="b1">1</label>
+                <input type="radio" name="before" id="b2" value="2"><label for="b2">2</label>
+                <input type="radio" name="before" id="b3" value="3"><label for="b3">3</label>
+                <input type="radio" name="before" id="b4" value="4"><label for="b4">4</label>
+                <input type="radio" name="before" id="b5" value="5"><label for="b5">5</label>
+              </div>
+            </div>
+            <div class="comparison-col">
+              <h4>After Briefing</h4>
+              <div class="rating">
+                <input type="radio" name="after" id="a1" value="1" required><label for="a1">1</label>
+                <input type="radio" name="after" id="a2" value="2"><label for="a2">2</label>
+                <input type="radio" name="after" id="a3" value="3"><label for="a3">3</label>
+                <input type="radio" name="after" id="a4" value="4"><label for="a4">4</label>
+                <input type="radio" name="after" id="a5" value="5"><label for="a5">5</label>
+              </div>
+            </div>
+          </div>
+          <div class="scale-hint"><span>Skeptical</span><span>Confident</span></div>
+        </div>
+      </div>
+      
+      <!-- Value -->
+      <div class="section">
+        <div class="section-title">Strategic Value</div>
+        
+        <div class="question">
+          <p class="q-text">Which capability would most benefit your mission?</p>
+          <select name="capability">
+            <option value="">Select...</option>
+            <option value="Meta">Meta — Audit & Verification</option>
+            <option value="Cluster">Cluster — Execution Orchestration</option>
+            <option value="Lifecycle">Lifecycle — Entity Analysis</option>
+            <option value="Fidelity">Fidelity — Cross-Arch Comparison</option>
+            <option value="Unsure">Not sure yet</option>
+          </select>
+        </div>
+        
+        <div class="question">
+          <p class="q-text">How likely are you to support MAESTRO adoption?</p>
+          <div class="rating">
+            <input type="radio" name="advocacy" id="ad1" value="1" required><label for="ad1">1</label>
+            <input type="radio" name="advocacy" id="ad2" value="2"><label for="ad2">2</label>
+            <input type="radio" name="advocacy" id="ad3" value="3"><label for="ad3">3</label>
+            <input type="radio" name="advocacy" id="ad4" value="4"><label for="ad4">4</label>
+            <input type="radio" name="advocacy" id="ad5" value="5"><label for="ad5">5</label>
+          </div>
+          <div class="scale-hint"><span>Unlikely</span><span>Strong advocate</span></div>
+        </div>
+      </div>
+      
+      <!-- Open -->
+      <div class="section">
+        <div class="section-title">Open Feedback</div>
+        <div class="question">
+          <p class="q-text">Questions, concerns, or suggestions?</p>
+          <textarea name="feedback" placeholder="Optional — anything you'd like us to address..."></textarea>
+          <p class="note" style="margin-top: 0.5rem; color: #f59e0b;">⚠ Keep all responses UNCLASSIFIED</p>
+        </div>
+      </div>
+      
+      <div class="submit-wrap">
+        <button type="submit">Submit</button>
+        <p class="note">Responses go directly to james.allen.99@us.af.mil</p>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
