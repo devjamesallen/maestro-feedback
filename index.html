@@ -177,6 +177,44 @@
       color: #e5e7eb;
     }
     
+    /* Checkbox group */
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: #e5e7eb;
+      transition: all 0.2s ease;
+    }
+    
+    .checkbox-item:hover {
+      background: rgba(139,92,246,0.1);
+      border-color: rgba(139,92,246,0.3);
+    }
+    
+    .checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #8b5cf6;
+      cursor: pointer;
+    }
+    
+    .checkbox-item:has(input:checked) {
+      background: rgba(139,92,246,0.15);
+      border-color: #8b5cf6;
+    }
+    
     /* Textarea */
     textarea {
       width: 100%;
@@ -332,15 +370,29 @@
         <div class="section-title">Strategic Value</div>
         
         <div class="question">
-          <p class="q-text">Which capability would most benefit your mission?</p>
-          <select name="capability">
-            <option value="">Select...</option>
-            <option value="Meta">Meta — Audit & Verification</option>
-            <option value="Cluster">Cluster — Execution Orchestration</option>
-            <option value="Lifecycle">Lifecycle — Entity Analysis</option>
-            <option value="Fidelity">Fidelity — Cross-Arch Comparison</option>
-            <option value="Unsure">Not sure yet</option>
-          </select>
+          <p class="q-text">Which capabilities would most benefit your mission? (select all that apply)</p>
+          <div class="checkbox-group">
+            <label class="checkbox-item">
+              <input type="checkbox" name="capability" value="Meta" class="cap-option">
+              <span>Meta — Audit & Verification</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="capability" value="Cluster" class="cap-option">
+              <span>Cluster — Execution Orchestration</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="capability" value="Lifecycle" class="cap-option">
+              <span>Lifecycle — Entity Analysis</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="capability" value="Fidelity" class="cap-option">
+              <span>Fidelity — Cross-Arch Comparison | V&V</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="capability" value="Unsure" id="unsure-checkbox">
+              <span>Not sure yet</span>
+            </label>
+          </div>
         </div>
         
         <div class="question">
@@ -372,5 +424,24 @@
       </div>
     </form>
   </div>
+  
+  <script>
+    const unsure = document.getElementById('unsure-checkbox');
+    const options = document.querySelectorAll('.cap-option');
+    
+    unsure.addEventListener('change', () => {
+      if (unsure.checked) {
+        options.forEach(opt => opt.checked = false);
+      }
+    });
+    
+    options.forEach(opt => {
+      opt.addEventListener('change', () => {
+        if (opt.checked) {
+          unsure.checked = false;
+        }
+      });
+    });
+  </script>
 </body>
 </html>
